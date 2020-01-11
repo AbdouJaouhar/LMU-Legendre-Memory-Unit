@@ -6,13 +6,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from keras.layers.core import Dense, Activation, Dropout
-from keras.layers.recurrent import LSTM, RNN
-from keras.initializers import RandomUniform
-from keras.models import Sequential
-from sklearn.metrics import mean_squared_error
-from torchsummary import summary
-
 def mackey_glass(sample_len=1000, tau=17, delta_t=10, seed=None, n_samples=1):
     # Adapted from https://github.com/mila-iqia/summerschool2015/blob/master/rnn_tutorial/synthetic.py
     '''
@@ -80,3 +73,41 @@ def cool_plot(X, Y, title=""):
     sns.despine(offset=15)
     
     plt.show()
+
+def train(model, epochs, dataset, dataset_valid = None):
+  for e in range(epochs):
+      model.train()
+      running_loss = 0
+      with tqdm(total=len(dataset)) as bar:
+        for i, (X, y) in enumerate(dataset):
+            optimizer.zero_grad()
+            
+            output = model(X.cuda())
+
+            loss_ll = criterion(output, y.cuda())
+            
+            loss_ll.backward()
+            
+            optimizer.step()
+            
+            running_loss += loss_ll.item()
+
+            bar.update(1)
+            bar.set_description("Epoch {} - Training loss: {}".format(e, running_loss/len(dataset)))
+
+      model.eval()
+      running_loss = 0
+      outs = []
+      with tqdm(total=len(dataset_valid)) as bar:
+        for i, (X, y) in enumerate(dataset_valid):
+            optimizer.zero_grad()
+            
+            output = model(X.cuda())
+
+            loss_ll = criterion(output, y.cuda())
+                
+            running_loss += loss_ll.item()
+            
+            outs.append(output)
+            bar.update(1)
+            bar.set_description("Epoch {} - Training loss: {}".format(e, running_loss/len(dataset_valid)))
