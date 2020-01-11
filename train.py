@@ -1,6 +1,9 @@
 from tqdm import tqdm
 import torch.utils.data as data
+from .models import *
+from .utils import *
 
+(train_X, train_Y), (test_X, test_Y) = generate_data(128, 5000)
 
 print("Training of LMU")
 
