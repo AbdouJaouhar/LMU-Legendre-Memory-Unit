@@ -5,6 +5,6 @@ The implementation isn't optimized yet but accuracy for 100 epochs is reproduced
 
 ## References
 <a id="1">[1]</a> 
-Voelker et al,  (1968). 
+Voelker et al,  (2019). 
 Legendre Memory Units: Continuous-TimeRepresentation in Recurrent Neural Networks. 
 33rd Conference on Neural Information Processing Systems (NeurIPS 2019), Vancouver, Canada.
