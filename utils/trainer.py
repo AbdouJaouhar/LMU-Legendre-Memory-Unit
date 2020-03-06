@@ -9,9 +9,7 @@ import seaborn as sns
 def generate_data(n_batches, length, split=0.5, seed=0,
                   predict_length=15, tau=17, washout=100, delta_t=1,
                   center=True):
-    X = np.asarray(mackey_glass(
-        sample_len=length+predict_length+washout, tau=tau,
-        seed=seed, n_samples=n_batches))
+    X = np.asarray(mackey_glass(sample_len=length+predict_length+washout, tau=tau,seed=seed, n_samples=n_batches))
     X = X[:, washout:, :]
     cutoff = int(split*n_batches)
     if center:
@@ -25,8 +23,7 @@ def generate_data(n_batches, length, split=0.5, seed=0,
 def cool_plot(X, Y, title=""):
     plt.figure(figsize=(14, 8))
     plt.title(title)
-    plt.scatter(X[:, 0], Y[:, 0] - X[:, 0], s=8, alpha=0.7,
-                c=np.arange(X.shape[0]), cmap=sns.cubehelix_palette(as_cmap=True))
+    plt.scatter(X[:, 0], Y[:, 0] - X[:, 0], s=8, alpha=0.7, c=np.arange(X.shape[0]), cmap=sns.cubehelix_palette(as_cmap=True))
     plt.plot(X[:, 0], Y[:, 0] - X[:, 0], c='black', alpha=0.2)
     plt.xlabel("$x(t)$")
     plt.ylabel("$y(t) - x(t)$")
